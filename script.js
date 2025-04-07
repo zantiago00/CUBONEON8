@@ -892,6 +892,23 @@ function initializeGame() {
         // Considerar enviar a un servicio de logging en producción
         // return true; // Descomentar con precaución, puede ocultar errores útiles
     };
+        // Mostrar pantalla de bienvenida primero
+    showScreen(document.getElementById('welcomeScreen'));
+
+    // Escuchar clic en el botón ¡COMENZAR!
+    document.getElementById('welcomeStartBtn')?.addEventListener('click', () => {
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        if (welcomeScreen) {
+            welcomeScreen.classList.add('transition-out');
+
+            setTimeout(() => {
+                showScreen(emailScreen);
+                welcomeScreen.classList.remove('transition-out');
+            }, 600); // Duración de la animación en milisegundos
+        } else {
+            showScreen(emailScreen);
+        }
+    });
 }
 
 // --- Iniciar el juego cuando el DOM esté listo ---
