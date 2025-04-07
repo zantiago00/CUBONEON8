@@ -626,54 +626,117 @@ body, html {
 
 /* Ajustes para móviles más pequeños en horizontal */
 @media screen and (max-width: 768px) {
-     #gameContainer {
+      #gameContainer {
         /* Puede heredar de 1024px o necesitar ajustes específicos */
         /* height: 100vh; ya heredado */
-     }
+      }
 
-     .screen h1 { font-size: clamp(26px, 6vmin, 36px); margin-bottom: 3vmin; }
-     .screen p { font-size: clamp(12px, 2.5vmin, 15px); line-height: 1.5; }
-     .form-group { max-width: 80%; }
-     .screen input[type="text"], .screen input[type="email"] {
-         padding: clamp(8px, 2vmin, 12px);
-         font-size: clamp(12px, 2.5vmin, 16px);
-     }
-     .screen button {
-         padding: clamp(8px, 2vmin, 12px) clamp(16px, 4vmin, 24px);
-         font-size: clamp(14px, 3vmin, 18px);
-     }
-     .checkbox-container label { font-size: clamp(10px, 2.2vmin, 14px); }
-     #score, #timer, #combo {
-         font-size: clamp(12px, 3vmin, 16px);
-         padding: clamp(6px, 2vmin, 10px) clamp(10px, 3vmin, 15px);
-         min-width: auto; /* Permitir que se encojan */
-     }
-     .obstacle, .coin { border-width: 2px; } /* Bordes más finos */
-     #ranking { max-width: 85%; }
-     .modal-content { width: 90%; max-width: 90%; }
+      .screen h1 { font-size: clamp(26px, 6vmin, 36px); margin-bottom: 3vmin; }
+      .screen p { font-size: clamp(12px, 2.5vmin, 15px); line-height: 1.5; }
+      .form-group { max-width: 80%; }
+      .screen input[type="text"], .screen input[type="email"] {
+          padding: clamp(8px, 2vmin, 12px);
+          font-size: clamp(12px, 2.5vmin, 16px);
+      }
+      .screen button {
+          padding: clamp(8px, 2vmin, 12px) clamp(16px, 4vmin, 24px);
+          font-size: clamp(14px, 3vmin, 18px);
+      }
+      .checkbox-container label { font-size: clamp(10px, 2.2vmin, 14px); }
+      #score, #timer, #combo {
+          font-size: clamp(12px, 3vmin, 16px);
+          padding: clamp(6px, 2vmin, 10px) clamp(10px, 3vmin, 15px);
+          min-width: auto; /* Permitir que se encojan */
+      }
+      .obstacle, .coin { border-width: 2px; } /* Bordes más finos */
+      #ranking { max-width: 85%; }
+      .modal-content { width: 90%; max-width: 90%; }
 }
 
 /* Ajustes para dispositivos con poca altura */
 @media screen and (max-height: 500px) {
-     #gameContainer {
-         /* Asegura altura completa si no la tiene */
-         height: 100vh;
-     }
-     .screen h1 { margin-bottom: 1vmin; font-size: clamp(22px, 5vmin, 30px); }
-     .form-group { margin-bottom: 1vmin; }
-     .screen input[type="text"], .screen input[type="email"] { margin-bottom: 1vmin; }
-     #ranking { max-height: 60vh; } /* Más espacio para el ranking */
-     .modal-content { margin: 2% auto; max-height: 90vh; } /* Ajuste margen y altura modal */
-     .terms-content { max-height: 65vh; } /* Ajuste scroll términos */
-     #score, #timer, #combo { top: 1.5%; } /* Subir un poco la UI */
+      #gameContainer {
+          /* Asegura altura completa si no la tiene */
+          height: 100vh;
+      }
+      .screen h1 { margin-bottom: 1vmin; font-size: clamp(22px, 5vmin, 30px); }
+      .form-group { margin-bottom: 1vmin; }
+      .screen input[type="text"], .screen input[type="email"] { margin-bottom: 1vmin; }
+      #ranking { max-height: 60vh; } /* Más espacio para el ranking */
+      .modal-content { margin: 2% auto; max-height: 90vh; } /* Ajuste margen y altura modal */
+      .terms-content { max-height: 65vh; } /* Ajuste scroll términos */
+      #score, #timer, #combo { top: 1.5%; } /* Subir un poco la UI */
 }
 
 /* Soporte específico para altura de viewport en iPhone */
 @supports (-webkit-touch-callout: none) {
     body, html, #gameContainer {
-         /* Usa -webkit-fill-available para intentar ocupar el área visible real */
-         height: -webkit-fill-available;
+          /* Usa -webkit-fill-available para intentar ocupar el área visible real */
+          height: -webkit-fill-available;
     }
 }
 
 /* Nota: Regla @media (orientation: portrait) { body::before { ... } } ELIMINADA */
+
+/* ========= INICIO NUEVO BLOQUE CSS AÑADIDO ========= */
+#welcomeScreen {
+    background: radial-gradient(circle at center, rgba(0, 255, 255, 0.2), rgba(0, 0, 0, 0.95));
+    background-size: 40px 40px;
+    background-image: linear-gradient(var(--color-grid) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+}
+#welcomeScreen h1 {
+    font-size: clamp(32px, 6vmin, 64px);
+    color: var(--color-border-main);
+    text-shadow: 0 0 12px var(--color-border-main), 0 0 24px var(--color-shadow-main);
+    margin-bottom: 2%;
+}
+.welcome-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5%;
+    max-width: 90%;
+    margin-bottom: 4%;
+}
+.welcome-section {
+    flex: 1 1 40%;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 2px solid var(--color-border-main);
+    padding: 2%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px var(--color-shadow-main);
+    min-width: 250px;
+    max-width: 400px;
+}
+.welcome-section h2 {
+    color: var(--color-coin-yellow);
+    font-size: clamp(14px, 2.5vmin, 20px);
+    text-shadow: 0 0 10px var(--color-coin-yellow);
+    margin-bottom: 1%;
+}
+.welcome-section p {
+    font-size: clamp(12px, 1.75vmin, 16px);
+    color: var(--color-text-medium);
+    line-height: 1.5;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
+}
+#welcomeStartBtn {
+    font-size: clamp(16px, 2.5vmin, 24px);
+    padding: 1.5% 3.5%;
+    background-color: var(--color-bg);
+    color: var(--color-coin-green);
+    border: 3px solid var(--color-coin-green);
+    box-shadow: 0 0 12px var(--color-coin-green), 0 0 8px var(--color-coin-green) inset;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-family: var(--font-primary); /* Asegura la fuente primaria */
+}
+#welcomeStartBtn:hover {
+    background: var(--color-coin-green);
+    color: var(--color-text-darker);
+    box-shadow: 0 0 20px var(--color-coin-green), 0 0 10px var(--color-text-light) inset;
+}
+/* ========= FIN NUEVO BLOQUE CSS AÑADIDO ========= */
