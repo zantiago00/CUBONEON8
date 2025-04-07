@@ -654,7 +654,7 @@ body, html {
     background-position: center center, center center, center center;
 }
 #welcomeScreen h1 {
-    font-size: clamp(32px, 6vmin, 64px);
+    font-size: clamp(28px, 4.5vmin, 45px);
     color: var(--color-border-main);
     text-shadow: 0 0 12px var(--color-border-main), 0 0 24px var(--color-shadow-main);
     margin-bottom: 3%; /* Aumentado ligeramente */
