@@ -51,8 +51,6 @@
     --color-hit-border: #ff0000; /* Rojo para efecto hit */
     --color-hit-shadow: rgba(255, 0, 0, 0.7);
     --color-hit-shadow-inset: rgba(255, 0, 0, 0.5);
-
-    /* Nota: @import de fuentes eliminado, se carga con <link> en HTML */
 }
 
 /* --- Estilos Base y Contenedor --- */
@@ -67,15 +65,15 @@ body, html {
     align-items: center;
     background: var(--color-bg);
     font-family: var(--font-primary);
-    /* touch-action movido a media query específica más abajo */
+    /* touch-action gestionado en media queries */
 }
 
 #gameContainer {
-    width: 100%;
-    height: 100%;
-    max-width: 1600px;
-    max-height: 800px;
-    aspect-ratio: 2 / 1;
+    width: 100%; /* Ocupa el espacio disponible */
+    height: 100%; /* Ocupa el espacio disponible */
+    max-width: 1600px; /* Límite máximo de ancho */
+    max-height: 800px; /* Límite máximo de alto */
+    aspect-ratio: 2 / 1; /* Mantiene relación de aspecto */
     position: relative;
     overflow: hidden;
     background-color: var(--color-bg);
@@ -86,20 +84,22 @@ body, html {
     border: 3px solid var(--color-border-main);
     box-shadow: 0 0 15px var(--color-shadow-main), 0 0 5px var(--color-shadow-main-inset) inset;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    /* touch-action: none; movido a media query */
+    /* touch-action gestionado en media queries */
+    box-sizing: border-box; /* Incluye borde y padding en el tamaño */
 }
 
 /* --- Elementos del Juego --- */
+/* Dimensiones relativas al #gameContainer */
 #player {
-    width: 8.75%; /* Relativo al contenedor (140px en 1600px) */
-    height: 17.5%; /* Relativo al contenedor (140px en 800px) */
+    width: 8.75%; /* 140px en 1600px */
+    height: 17.5%; /* 140px en 800px */
     background: var(--color-player-bg);
     border: 4px solid var(--color-player-border);
     box-shadow: 0 0 10px var(--color-player-shadow), 0 0 20px var(--color-player-shadow) inset;
     position: absolute;
     bottom: 0;
-    left: 6.25%; /* 100px relativo a 1600px */
-    transition: transform 0.1s, border-color 0.3s, box-shadow 0.3s, bottom 0s; /* bottom 0s para evitar transición en caída */
+    left: 6.25%; /* 100px en 1600px */
+    transition: transform 0.1s, border-color 0.3s, box-shadow 0.3s, bottom 0s; /* bottom 0s para caída instantánea */
     z-index: 5;
     box-sizing: border-box;
 }
@@ -114,31 +114,32 @@ body, html {
 }
 
 #player.collected {
-    transform: scale(1.1); /* La transición existente lo hará suave */
+    transform: scale(1.1); /* Animación suave al recolectar */
 }
 
 .obstacle {
+    /* Dimensiones relativas al #gameContainer - CSS es la fuente de verdad */
+    width: 3.875%; /* 62px en 1600px */
+    height: 7.75%; /* 62px en 800px */
     background: var(--color-obstacle-bg);
     border: 4px solid var(--color-obstacle-border);
     box-shadow: 0 0 8px var(--color-obstacle-shadow), 0 0 15px var(--color-obstacle-shadow) inset;
-    width: 3.875%; /* 62px relativo a 1600px */
-    height: 7.75%; /* 62px relativo a 800px */
     position: absolute;
     bottom: 0;
     z-index: 4;
     box-sizing: border-box;
-    /* Nota: Estilos de visibilidad forzada con !important ELIMINADOS */
-    /* La visibilidad se controla por su presencia/ausencia en el DOM */
+    /* Visibilidad controlada por presencia en el DOM (añadido/quitado por JS) */
 }
 
 .obstacle.large {
-    width: 4.625%; /* 74px relativo a 1600px */
-    height: 9.25%; /* 74px relativo a 800px */
+    width: 4.625%; /* 74px en 1600px */
+    height: 9.25%; /* 74px en 800px */
 }
 
 .coin {
-    width: 3.125%; /* 50px relativo a 1600px */
-    height: 6.25%; /* 50px relativo a 800px */
+    /* Dimensiones relativas al #gameContainer */
+    width: 3.125%; /* 50px en 1600px */
+    height: 6.25%; /* 50px en 800px */
     border-radius: 50%;
     position: absolute;
     display: flex;
@@ -149,6 +150,7 @@ body, html {
     color: var(--color-text-darker);
     z-index: 4;
     border: 2px solid rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
 }
 
 .coin.green {
@@ -173,22 +175,27 @@ body, html {
 /* --- Interfaz de Usuario (Score, Timer, Combo) --- */
 #score, #timer, #combo {
     position: absolute;
-    top: 2.5%; /* 20px relativo a 800px */
+    top: 2.5%; /* 20px en 800px */
     background: var(--color-ui-bg);
-    padding: 1.25% 3.125%; /* 10px 25px relativo a 800px y 1600px */
+    padding: 1.25% 2.5%; /* Ajustado padding horizontal */
     border: 2px solid var(--color-ui-border);
-    font-size: clamp(14px, 2.5vmin, 24px); /* Tamaño fluido con límites */
+    font-size: clamp(14px, 2.5vmin, 24px); /* Tamaño fluido */
     color: var(--color-text-light);
     font-weight: bold;
     border-radius: 8px;
     z-index: 10;
-    min-width: 9.375%; /* 150px relativo a 1600px */
+    min-width: 120px; /* Ancho mínimo */
     text-align: center;
     text-shadow: 0 0 5px var(--color-text-light), 0 0 10px rgba(255, 255, 255, 0.5);
+    box-sizing: border-box;
 }
-#score { right: 1.25%; }
-#timer { left: 1.25%; }
-#combo { left: 50%; transform: translateX(-50%); }
+#score { right: 1.25%; /* 20px en 1600px */ }
+#timer { left: 1.25%; /* 20px en 1600px */ }
+#combo {
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 150px; /* Combo puede ser más largo */
+}
 
 /* --- Pantallas (Inicio, Registro, Fin) --- */
 .screen {
@@ -198,7 +205,7 @@ body, html {
     width: 100%;
     height: 100%;
     background: var(--color-screen-bg);
-    display: flex; /* Flex por defecto, .screen--hidden lo ocultará */
+    display: flex; /* Flex por defecto, se oculta con .screen--hidden */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -207,30 +214,28 @@ body, html {
     padding: 2.5%;
     box-sizing: border-box;
     color: var(--color-text-light);
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease, visibility 0.3s ease; /* Transición suave para mostrar/ocultar */
+    /* Transiciones para opacity/visibility si se cambian en .screen--hidden */
+    /* transition: opacity 0.3s ease, visibility 0.3s ease; */
 }
 
+/* CORRECCIÓN: Se mantiene display: none para ocultar, según diagnóstico */
 .screen--hidden {
-    display: none; /* Oculta la pantalla */
-    /* Opcional: Animar salida */
-    /* opacity: 0; */
-    /* visibility: hidden; */
+    display: none;
 }
 
+/* Estilos comunes para elementos dentro de las pantallas */
 .screen h1 {
     font-size: clamp(24px, 4.5vmin, 48px);
-    margin-bottom: 3.75%;
+    margin-bottom: 3.75%; /* 30px en 800px */
     color: var(--color-screen-title);
     text-shadow: 0 0 8px var(--color-screen-title), 0 0 15px var(--color-shadow-main);
 }
 
 .screen p {
     font-size: clamp(12px, 1.75vmin, 18px);
-    margin-bottom: 3.125%;
+    margin-bottom: 3.125%; /* 25px en 800px */
     line-height: 1.8;
-    max-width: 37.5%; /* 600px relativo a 1600px */
+    max-width: 60%; /* Limita ancho del texto */
     color: var(--color-text-medium);
     text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
 }
@@ -241,8 +246,9 @@ body, html {
 .instruction-color--blue { color: var(--color-coin-blue); font-weight: bold; text-shadow: 0 0 5px var(--color-coin-blue); }
 .instruction-color--yellow { color: var(--color-coin-yellow); font-weight: bold; text-shadow: 0 0 5px var(--color-coin-yellow); }
 
+/* Estilos para botones dentro de las pantallas */
 .screen button {
-    padding: 1.875% 3.75%;
+    padding: 1.5% 3%; /* Ajuste de padding */
     font-size: clamp(14px, 2vmin, 22px);
     background: var(--color-button-bg);
     color: var(--color-button-text);
@@ -250,10 +256,11 @@ body, html {
     box-shadow: 0 0 10px var(--color-button-border), 0 0 5px var(--color-button-border) inset;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 1.875%;
+    margin-top: 1.875%; /* 15px en 800px */
     transition: all 0.3s ease;
     font-weight: bold;
     font-family: var(--font-primary);
+    min-width: 150px; /* Ancho mínimo para botones */
 }
 .screen button:hover {
     background: var(--color-button-hover-bg);
@@ -267,26 +274,41 @@ body, html {
 
 /* --- Formularios --- */
 .form-group {
-    margin-bottom: 1.875%;
+    margin-bottom: 1.875%; /* 15px en 800px */
     width: 100%;
-    max-width: 20%; /* 320px relativo a 1600px */
+    max-width: 320px; /* Ancho máximo para grupos de formulario */
+    display: flex; /* Para alinear label (si es visible) e input */
+    flex-direction: column; /* Apila label e input */
+    align-items: center; /* Centra el input horizontalmente */
+}
+
+/* CORRECCIÓN: Añadida clase .visually-hidden para etiquetas de accesibilidad */
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
 .screen input[type="text"],
 .screen input[type="email"] {
     font-size: clamp(12px, 1.75vmin, 18px);
-    padding: 1.5% 1.875%;
-    margin-bottom: 1.25%;
+    padding: 10px 12px; /* Padding fijo para consistencia */
     border: 2px solid var(--color-input-border);
     background-color: var(--color-input-bg);
     color: var(--color-input-text);
     border-radius: 5px;
-    width: 100%;
+    width: 100%; /* Ocupa el ancho del .form-group */
     text-align: center;
     box-shadow: 0 0 5px var(--color-input-border) inset;
     font-family: var(--font-primary);
-    box-sizing: border-box; /* Añadido para consistencia */
+    box-sizing: border-box;
+    margin-top: 5px; /* Espacio si la label fuera visible */
 }
+
 /* Estilo para input readonly (correo pre-rellenado) */
 .screen input[readonly] {
     background-color: #222; /* Gris oscuro */
@@ -301,28 +323,30 @@ body, html {
     font-size: clamp(10px, 1.25vmin, 14px);
 }
 
+/* Contenedor específico para el checkbox y su label */
 .checkbox-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 1.875% 0;
-    width: 100%; /* Asegura que ocupa el ancho para centrar bien */
-    max-width: 30%; /* Ajusta el ancho si es necesario */
+    margin: 1.875% 0; /* 15px en 800px */
+    width: 100%;
+    max-width: none; /* Ocupa ancho para centrar contenido */
+    gap: 10px; /* Espacio entre checkbox y label */
 }
 
 .checkbox-container input[type="checkbox"] {
-    width: auto;
-    margin-right: 1.25%;
+    /* Tamaño y apariencia por defecto del navegador, o estilizar más si se desea */
     transform: scale(1.2);
     cursor: pointer;
-    /* Estilo básico para el checkbox si se desea */
-    accent-color: var(--color-link);
+    accent-color: var(--color-link); /* Color del check */
+    flex-shrink: 0; /* Evita que se encoja */
 }
 
 .checkbox-container label {
     font-size: clamp(11px, 1.5vmin, 16px);
     cursor: pointer;
-    color: var(--color-text-medium); /* Color base */
+    color: var(--color-text-medium);
+    line-height: 1.3; /* Ajustar si el texto se corta */
 }
 
 .checkbox-container a {
@@ -345,7 +369,7 @@ body, html {
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow: auto; /* Permite scroll si el contenido es muy grande */
     background-color: rgba(0, 0, 0, 0.8);
     animation: fadeIn 0.3s;
 }
@@ -358,17 +382,19 @@ body, html {
 .modal-content {
     position: relative;
     background-color: var(--color-modal-bg);
-    margin: 5% auto;
-    padding: 2.5%;
+    margin: 5% auto; /* Centrado vertical (aproximado) y horizontal */
+    padding: 2.5%; /* 20px en 800px */
     border: 2px solid var(--color-modal-border);
     box-shadow: 0 0 15px var(--color-modal-shadow);
     width: 80%;
-    max-width: 50%; /* 800px relativo a 1600px */
-    max-height: 80vh;
+    max-width: 800px; /* Límite de ancho */
+    max-height: 80vh; /* Límite de alto relativo a la ventana */
     border-radius: 8px;
-    overflow: hidden; /* Contiene el botón de cierre flotante */
+    overflow: hidden; /* Necesario para contener el scroll del .terms-content */
     animation: modalSlideIn 0.4s;
-    color: var(--color-text-medium); /* Color de texto por defecto en modal */
+    color: var(--color-text-medium);
+    display: flex; /* Usar flex para controlar el scroll interno */
+    flex-direction: column;
 }
 
 @keyframes modalSlideIn {
@@ -377,13 +403,16 @@ body, html {
 }
 
 .close-btn {
+    position: absolute; /* Posicionar relativo a .modal-content */
+    top: 10px;
+    right: 15px;
     color: var(--color-link);
-    float: right;
     font-size: clamp(20px, 3.5vmin, 30px);
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s;
-    line-height: 1; /* Ajusta para mejor alineación vertical */
+    line-height: 1;
+    z-index: 1; /* Asegura que esté sobre el contenido */
 }
 
 .close-btn:hover {
@@ -394,41 +423,45 @@ body, html {
 .modal-content h2 {
     color: var(--color-link);
     text-align: center;
-    margin-top: 0; /* Reset margin */
-    margin-bottom: 2.5%;
+    margin-top: 0;
+    margin-bottom: 2.5%; /* 20px en 800px */
     font-size: clamp(18px, 3vmin, 32px);
     text-shadow: 0 0 5px var(--color-link);
+    flex-shrink: 0; /* Evita que se encoja */
 }
 
 .modal-content h3 {
     color: var(--color-link);
-    margin-top: 2.5%;
-    margin-bottom: 1.25%;
+    margin-top: 1.25em; /* Espacio antes de h3 */
+    margin-bottom: 0.6em; /* Espacio después de h3 */
     font-size: clamp(14px, 2vmin, 20px);
 }
 
 .terms-content {
-    max-height: 50vh;
-    overflow-y: auto;
-    padding: 1.25% 1.875%; /* Más padding horizontal */
-    margin-bottom: 2.5%;
+    flex-grow: 1; /* Permite que ocupe el espacio restante */
+    overflow-y: auto; /* Habilita el scroll vertical si es necesario */
+    padding: 15px 20px; /* Padding interno */
+    margin-bottom: 2.5%; /* 20px en 800px, espacio antes del botón Aceptar */
     border: 1px solid var(--color-terms-border);
     background-color: var(--color-terms-bg);
-    border-radius: 4px; /* Suaviza bordes */
+    border-radius: 4px;
 }
 
 .terms-content p {
     color: var(--color-text-dark);
     font-size: clamp(11px, 1.5vmin, 16px);
-    line-height: 1.8;
-    margin-bottom: 1.875%;
+    line-height: 1.7; /* Ligeramente ajustado */
+    margin-bottom: 1em; /* Espacio entre párrafos */
+}
+.terms-content p:last-child {
+    margin-bottom: 0; /* Sin margen extra al final */
 }
 
 /* Estilo del botón Aceptar dentro del modal */
 #acceptTermsBtn {
-    display: block;
-    margin: 1.875% auto 0 auto; /* Ajusta margen superior */
-    padding: 1.25% 2.5%;
+    display: block; /* Asegura que ocupe su línea */
+    margin: 0 auto; /* Centrado horizontal */
+    padding: 10px 20px; /* Padding fijo */
     background: var(--color-button-bg);
     color: var(--color-button-text);
     border: 2px solid var(--color-button-border);
@@ -437,6 +470,7 @@ body, html {
     cursor: pointer;
     transition: all 0.3s;
     font-family: var(--font-primary);
+    flex-shrink: 0; /* Evita que se encoja */
 }
 
 #acceptTermsBtn:hover {
@@ -452,8 +486,8 @@ body, html {
     font-weight: bold;
     animation: float 1.2s forwards ease-out;
     z-index: 99;
-    pointer-events: none;
-    /* Sombra definida por clase plus/minus */
+    pointer-events: none; /* No interfiere con clics */
+    white-space: nowrap; /* Evita que el texto se parta */
 }
 @keyframes float {
     0% { transform: translateY(0) scale(1); opacity: 1; }
@@ -470,67 +504,78 @@ body, html {
 
 /* --- Ranking --- */
 #rankingDisplay h1 {
-    /* Hereda estilos de .screen h1, puede sobreescribirse si es necesario */
+    /* Hereda estilos de .screen h1 */
 }
 #rankingDisplay #finalScoreText {
-     /* Hereda estilos de .screen p, puede sobreescribirse si es necesario */
-     color: var(--color-text-light); /* Hacerlo más prominente */
-     font-size: clamp(14px, 2vmin, 20px);
-     margin-bottom: 1.5%;
+    color: var(--color-text-light);
+    font-size: clamp(14px, 2vmin, 20px);
+    margin-bottom: 1.5%; /* 12px en 800px */
 }
 #ranking {
-    margin-top: 2.5%;
+    margin-top: 2.5%; /* 20px en 800px */
     font-size: clamp(12px, 1.75vmin, 18px);
-    max-height: 43.75%; /* 350px relativo a 800px */
+    max-height: 43.75%; /* 350px en 800px */
     overflow-y: auto;
     width: 80%;
-    max-width: 31.25%; /* 500px relativo a 1600px */
+    max-width: 500px; /* Límite de ancho */
     border: 1px solid var(--color-ranking-border);
-    padding: 1.25%;
+    padding: 1.25%; /* 10px en 800px */
     background-color: var(--color-ranking-bg);
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) inset;
-    color: var(--color-text-dark); /* Color de texto base para el ranking */
+    color: var(--color-text-dark);
 }
-#ranking h2 { /* Estilo para el posible H2 dentro del div #ranking */
+#ranking h2 {
     font-size: clamp(16px, 2.25vmin, 24px);
     margin-top: 0;
-    margin-bottom: 1.25%;
+    margin-bottom: 1.25%; /* 10px en 800px */
     text-align: center;
     color: var(--color-text-light);
     text-shadow: 0 0 5px var(--color-text-light);
+    position: sticky; /* Hacer que el H2 también sea pegajoso? */
+    top: 0;
+    background: var(--color-ranking-bg); /* Fondo para que tape al hacer scroll */
+    z-index: 2; /* Encima de las filas pero debajo del header */
+    padding-top: 5px; /* Espacio */
 }
 #ranking table { width: 100%; border-collapse: collapse; }
 #ranking th, #ranking td {
-    border: 1px solid var(--color-terms-border); /* Reutilizando variable */
-    padding: 1% 1.25%;
+    border: 1px solid var(--color-terms-border);
+    padding: 8px 10px; /* Padding fijo */
     text-align: left;
     font-size: clamp(11px, 1.5vmin, 16px);
+    white-space: nowrap; /* Evitar que se partan celdas */
 }
-#ranking th:first-child, #ranking td:first-child, /* Columna # */
-#ranking th:last-child, #ranking td:last-child { /* Columna Puntos */
+/* Ajuste de anchos de columna */
+#ranking th:first-child, #ranking td:first-child { /* # */
     text-align: center;
-    width: 15%;
+    width: 10%;
 }
-#ranking th:nth-child(2), #ranking td:nth-child(2) { /* Columna Nombre */
-    width: 70%;
+#ranking th:nth-child(2), #ranking td:nth-child(2) { /* Nombre */
+    width: 65%;
+    white-space: normal; /* Permitir que nombres largos se partan */
+    word-break: break-word; /* Romper palabra si es muy larga */
 }
-#ranking th { /* Encabezados de tabla */
+#ranking th:last-child, #ranking td:last-child { /* Puntos */
+    text-align: right; /* Alinear puntos a la derecha */
+    width: 25%;
+}
+#ranking th {
     background-color: var(--color-ranking-header-bg);
     color: var(--color-ranking-header-text);
     text-shadow: 0 0 4px var(--color-ranking-header-text);
     position: sticky;
-    top: -1px; /* Ajuste para que el borde no solape */
-    z-index: 1; /* Asegura que esté sobre las filas al hacer scroll */
+    top: 0; /* O top: altura_del_h2 si H2 es sticky */
+    z-index: 3; /* Encima de todo */
 }
-#ranking tr:nth-child(even) td { /* Filas alternas */
+#ranking tr:nth-child(even) td {
     background-color: var(--color-ranking-row-alt-bg);
 }
-#ranking tr:hover td { /* Efecto hover en filas */
+#ranking tr:hover td {
     background-color: var(--color-ranking-row-hover-bg);
     color: var(--color-text-light);
 }
-/* Mensajes de error/estado dentro del ranking */
+/* Mensajes de estado/error dentro del ranking */
 #ranking p {
     text-align: center;
     padding: 10px;
@@ -545,28 +590,26 @@ body, html {
     75%  { transform: translate(-15px, 0); }
     100% { transform: translate(0, 0); }
 }
-
-.shake {
-    animation: shake 0.3s;
-}
+.shake { animation: shake 0.3s; }
 
 #gameContainer.hit {
-    border-color: var(--color-hit-border) !important; /* !important puede ser necesario para sobreescribir rápido */
+    border-color: var(--color-hit-border) !important; /* !important mantenido para override rápido */
     box-shadow: 0 0 15px var(--color-hit-shadow),
                 0 0 5px var(--color-hit-shadow-inset) inset;
 }
 
 
-/* --- Mensaje de Orientación (Controlado por JS) --- */
+/* --- Mensaje de Orientación --- */
+/* Estilos base (cuando es visible) */
 #orientation-message {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--color-screen-bg); /* Reutiliza el fondo de pantalla */
+  background: var(--color-screen-bg);
   color: var(--color-screen-title);
-  display: flex; /* Usaremos 'none'/'flex' desde JS */
+  display: flex; /* Cambiado por JS entre 'none' y 'flex' usando clases */
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -574,16 +617,22 @@ body, html {
   padding: 20px;
   box-sizing: border-box;
 }
-#orientation-message div {
+/* Se oculta añadiendo la clase .screen--hidden desde JS */
+#orientation-message.screen--hidden {
+    display: none;
+}
+
+#orientation-message div { /* Contenedor interno del mensaje */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 #orientation-message p {
     color: var(--color-text-light);
-    font-size: clamp(16px, 5vw, 30px); /* Tamaño adaptable */
+    font-size: clamp(16px, 5vw, 30px);
     margin-bottom: 20px;
-    max-width: 90%; /* Ajuste de ancho */
+    max-width: 90%;
+    line-height: 1.4;
 }
 .rotate-icon {
   font-size: clamp(40px, 10vw, 80px);
@@ -595,148 +644,158 @@ body, html {
   to { transform: rotate(360deg); }
 }
 
-/* --- Optimización y Responsividad Móvil --- */
-
-/* Regla para touch-action movida desde inline style */
-/* Ajustes generales para impedir zoom/scroll no deseado en móviles */
-@media screen and (max-width: 1024px) {
-    body {
-        touch-action: pan-x pan-y; /* Permite scroll normal, previene zoom por doble toque */
-        -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
-    }
-    #gameContainer {
-        touch-action: none; /* Desactiva acciones táctiles por defecto en el contenedor del juego */
-        /* Ajustes de tamaño/borde para tablets */
-        width: 100%;
-        height: 100vh; /* Ocupar toda la altura */
-        max-width: none;
-        max-height: none;
-        border-radius: 0;
-        border: none;
-        box-shadow: none; /* Quitar sombra en pantalla completa */
-        aspect-ratio: auto; /* Permitir que se adapte */
-    }
-
-    .screen h1 { font-size: clamp(28px, 5vmin, 40px); }
-    .screen p { font-size: clamp(13px, 2vmin, 16px); max-width: 80%; }
-    .form-group { max-width: 60%; }
-    .modal-content { max-width: 80%; }
-    #ranking { max-width: 70%; }
-}
-
-/* Ajustes para móviles más pequeños en horizontal */
-@media screen and (max-width: 768px) {
-      #gameContainer {
-        /* Puede heredar de 1024px o necesitar ajustes específicos */
-        /* height: 100vh; ya heredado */
-      }
-
-      .screen h1 { font-size: clamp(26px, 6vmin, 36px); margin-bottom: 3vmin; }
-      .screen p { font-size: clamp(12px, 2.5vmin, 15px); line-height: 1.5; }
-      .form-group { max-width: 80%; }
-      .screen input[type="text"], .screen input[type="email"] {
-          padding: clamp(8px, 2vmin, 12px);
-          font-size: clamp(12px, 2.5vmin, 16px);
-      }
-      .screen button {
-          padding: clamp(8px, 2vmin, 12px) clamp(16px, 4vmin, 24px);
-          font-size: clamp(14px, 3vmin, 18px);
-      }
-      .checkbox-container label { font-size: clamp(10px, 2.2vmin, 14px); }
-      #score, #timer, #combo {
-          font-size: clamp(12px, 3vmin, 16px);
-          padding: clamp(6px, 2vmin, 10px) clamp(10px, 3vmin, 15px);
-          min-width: auto; /* Permitir que se encojan */
-      }
-      .obstacle, .coin { border-width: 2px; } /* Bordes más finos */
-      #ranking { max-width: 85%; }
-      .modal-content { width: 90%; max-width: 90%; }
-}
-
-/* Ajustes para dispositivos con poca altura */
-@media screen and (max-height: 500px) {
-      #gameContainer {
-          /* Asegura altura completa si no la tiene */
-          height: 100vh;
-      }
-      .screen h1 { margin-bottom: 1vmin; font-size: clamp(22px, 5vmin, 30px); }
-      .form-group { margin-bottom: 1vmin; }
-      .screen input[type="text"], .screen input[type="email"] { margin-bottom: 1vmin; }
-      #ranking { max-height: 60vh; } /* Más espacio para el ranking */
-      .modal-content { margin: 2% auto; max-height: 90vh; } /* Ajuste margen y altura modal */
-      .terms-content { max-height: 65vh; } /* Ajuste scroll términos */
-      #score, #timer, #combo { top: 1.5%; } /* Subir un poco la UI */
-}
-
-/* Soporte específico para altura de viewport en iPhone */
-@supports (-webkit-touch-callout: none) {
-    body, html, #gameContainer {
-          /* Usa -webkit-fill-available para intentar ocupar el área visible real */
-          height: -webkit-fill-available;
-    }
-}
-
-/* Nota: Regla @media (orientation: portrait) { body::before { ... } } ELIMINADA */
-
-/* ========= INICIO NUEVO BLOQUE CSS AÑADIDO ========= */
+/* --- Pantalla de Bienvenida Específica --- */
 #welcomeScreen {
-    background: radial-gradient(circle at center, rgba(0, 255, 255, 0.2), rgba(0, 0, 0, 0.95));
-    background-size: 40px 40px;
-    background-image: linear-gradient(var(--color-grid) 1px, transparent 1px),
-                      linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+    /* Fondo con gradiente radial y rejilla */
+    background: radial-gradient(circle at center, rgba(0, 255, 255, 0.15), rgba(0, 0, 0, 0.95)),
+                linear-gradient(var(--color-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+    background-size: cover, 40px 40px, 40px 40px;
+    background-position: center center, center center, center center;
 }
 #welcomeScreen h1 {
     font-size: clamp(32px, 6vmin, 64px);
     color: var(--color-border-main);
     text-shadow: 0 0 12px var(--color-border-main), 0 0 24px var(--color-shadow-main);
-    margin-bottom: 2%;
+    margin-bottom: 3%; /* Aumentado ligeramente */
 }
 .welcome-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 2.5%;
-    max-width: 90%;
+    gap: 20px; /* Espacio fijo entre secciones */
+    width: 100%;
+    max-width: 1000px; /* Aumentado ancho máximo */
     margin-bottom: 4%;
 }
 .welcome-section {
-    flex: 1 1 40%;
-    background-color: rgba(0, 0, 0, 0.6);
+    flex: 1 1 200px; /* Base más pequeña, permite más elementos por fila */
+    background-color: rgba(0, 0, 0, 0.7); /* Ligeramente más opaco */
     border: 2px solid var(--color-border-main);
-    padding: 2%;
+    padding: 15px 20px; /* Padding ajustado */
     border-radius: 8px;
     box-shadow: 0 0 10px var(--color-shadow-main);
-    min-width: 250px;
-    max-width: 400px;
+    min-width: 200px;
+    max-width: 350px;
 }
 .welcome-section h2 {
     color: var(--color-coin-yellow);
     font-size: clamp(14px, 2.5vmin, 20px);
     text-shadow: 0 0 10px var(--color-coin-yellow);
-    margin-bottom: 1%;
+    margin-top: 0; /* Eliminar margen superior */
+    margin-bottom: 10px; /* Espacio después del título */
 }
 .welcome-section p {
     font-size: clamp(12px, 1.75vmin, 16px);
     color: var(--color-text-medium);
     line-height: 1.5;
     text-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
+    margin-bottom: 0; /* Eliminar margen inferior del párrafo */
+    max-width: none; /* Permitir que ocupe el ancho de la sección */
 }
 #welcomeStartBtn {
+    /* Reutiliza estilos de .screen button pero con colores específicos */
     font-size: clamp(16px, 2.5vmin, 24px);
     padding: 1.5% 3.5%;
-    background-color: var(--color-bg);
-    color: var(--color-coin-green);
-    border: 3px solid var(--color-coin-green);
+    background-color: var(--color-bg); /* Fondo base */
+    color: var(--color-coin-green); /* Texto verde */
+    border-color: var(--color-coin-green); /* Borde verde */
     box-shadow: 0 0 12px var(--color-coin-green), 0 0 8px var(--color-coin-green) inset;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    font-family: var(--font-primary); /* Asegura la fuente primaria */
+    border-radius: 12px; /* Más redondeado */
 }
 #welcomeStartBtn:hover {
-    background: var(--color-coin-green);
-    color: var(--color-text-darker);
+    background: var(--color-coin-green); /* Fondo verde al pasar */
+    color: var(--color-text-darker); /* Texto oscuro */
     box-shadow: 0 0 20px var(--color-coin-green), 0 0 10px var(--color-text-light) inset;
 }
-/* ========= FIN NUEVO BLOQUE CSS AÑADIDO ========= */
+/* Animación para transición de salida de Welcome Screen (opcional, controlada por JS) */
+#welcomeScreen.transition-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+
+/* --- Optimización y Responsividad Móvil --- */
+
+@media screen and (max-width: 1024px) {
+    body {
+        touch-action: manipulation; /* Previene zoom por doble toque, permite pan */
+        -webkit-overflow-scrolling: touch;
+    }
+    #gameContainer {
+        /* En tablets/móviles, ocupa toda la pantalla, sin borde/sombra */
+        width: 100%;
+        height: 100vh; /* Intenta ocupar altura visible */
+        height: -webkit-fill-available; /* Fallback para iOS */
+        max-width: none;
+        max-height: none;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        aspect-ratio: auto; /* Ratio automático */
+        touch-action: none; /* Desactiva scroll/zoom dentro del juego */
+    }
+
+    .screen h1 { font-size: clamp(28px, 5vmin, 40px); }
+    .screen p { font-size: clamp(13px, 2vmin, 16px); max-width: 85%; } /* Aumentar max-width */
+    .form-group { max-width: 70%; } /* Aumentar max-width */
+    .modal-content { width: 90%; max-width: 600px; } /* Ajustar modal */
+    #ranking { max-width: 80%; } /* Ajustar ranking */
+    #ranking th:nth-child(2), #ranking td:nth-child(2) { width: 60%; } /* Ajustar columna nombre */
+    #ranking th:last-child, #ranking td:last-child { width: 30%; }
+}
+
+/* Ajustes para móviles más pequeños */
+@media screen and (max-width: 768px) {
+     .screen h1 { font-size: clamp(24px, 6vmin, 36px); margin-bottom: 4vmin; }
+     .screen p { font-size: clamp(12px, 2.5vmin, 15px); line-height: 1.6; max-width: 90%; }
+     .form-group { max-width: 85%; }
+     .screen input[type="text"], .screen input[type="email"] {
+         padding: 12px 10px; /* Ajustar padding */
+         font-size: clamp(12px, 2.5vmin, 16px);
+     }
+     .screen button {
+         padding: 12px 20px; /* Ajustar padding */
+         font-size: clamp(14px, 3vmin, 18px);
+         min-width: 120px; /* Reducir ancho mínimo */
+     }
+     .checkbox-container label { font-size: clamp(10px, 2.2vmin, 14px); }
+     #score, #timer, #combo {
+         font-size: clamp(11px, 3vmin, 15px); /* Ligeramente más pequeño */
+         padding: 8px 12px; /* Ajustar padding */
+         min-width: auto; /* Permitir que se encojan más */
+         border-width: 1px; /* Borde más fino */
+     }
+     .obstacle, .coin { border-width: 2px; } /* Bordes más finos para objetos */
+     #ranking { max-width: 90%; }
+     #ranking th, #ranking td { padding: 6px 8px; }
+     .modal-content { width: 95%; max-width: 95%; } /* Modal casi pantalla completa */
+     .terms-content { padding: 10px 15px; }
+}
+
+/* Ajustes para dispositivos con poca altura (modo horizontal) */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+     #gameContainer {
+         /* Asegura altura completa si no la tiene */
+         height: 100vh;
+         height: -webkit-fill-available;
+     }
+     .screen h1 { margin-bottom: 1vmin; font-size: clamp(20px, 5vmin, 28px); }
+     .form-group { margin-bottom: 1.5vmin; }
+     .screen input[type="text"], .screen input[type="email"] { margin-bottom: 1vmin; padding: 8px 10px; }
+     .screen button { padding: 10px 15px; font-size: clamp(12px, 2.5vmin, 16px); }
+     #ranking { max-height: 65vh; } /* Más espacio vertical para el ranking */
+     .modal-content { margin: 2% auto; max-height: 90vh; }
+     .terms-content { max-height: 70vh; } /* Más espacio para términos */
+     #score, #timer, #combo { top: 1.5%; } /* Subir un poco la UI */
+     /* Reducir tamaño de fuente en párrafos generales */
+     .screen p { font-size: clamp(10px, 1.5vmin, 14px); line-height: 1.4; }
+     .welcome-section h2 { font-size: clamp(12px, 2vmin, 16px); }
+     .welcome-section p { font-size: clamp(10px, 1.5vmin, 14px); }
+}
+
+/* Soporte específico para altura de viewport en iOS (Repetido por si acaso) */
+@supports (-webkit-touch-callout: none) {
+    body, html, #gameContainer {
+        height: -webkit-fill-available;
+    }
+}
