@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" href="styles.css">
 
-    </head>
+</head>
 <body>
     <div id="gameContainer">
         <div id="player"></div>
@@ -37,7 +37,8 @@
             <p>Regístrate para jugar y aparecer en el ranking</p>
             <form id="registerForm">
                 <div class="form-group">
-                    <input id="playerEmail" type="email" placeholder="Tu correo electrónico" required autocomplete="email" readonly> </div>
+                    <input id="playerEmail" type="email" placeholder="Tu correo electrónico" required autocomplete="email" readonly>
+                </div>
                 <div class="form-group">
                     <input id="playerName" type="text" placeholder="Tu nombre (Max 15)" maxlength="15" required autocomplete="nickname">
                 </div>
@@ -68,7 +69,30 @@
             <button id="restartButton">JUGAR DE NUEVO</button>
         </div>
 
-        <div id="termsModal" class="modal"> <div class="modal-content">
+        <div id="welcomeScreen" class="screen">
+            <h1>CUBONEON ARENA</h1>
+            <div class="welcome-content">
+                <div class="welcome-section">
+                    <h2>🏆 Premios Semanales</h2>
+                    <p>Compite por premios increíbles. Se actualizan cada lunes.</p>
+                </div>
+                <div class="welcome-section">
+                    <h2>🎮 Cómo Participar</h2>
+                    <p>Ingresa tu correo, juega, acumula puntos y escala en el ranking.</p>
+                </div>
+                <div class="welcome-section">
+                    <h2>⏱️ Intentos</h2>
+                    <p>3 intentos por semana. ¡Aprovecha cada uno!</p>
+                </div>
+                <div class="welcome-section">
+                    <h2>🌎 Competencia Nacional</h2>
+                    <p>Los mejores jugadores representarán su región.</p>
+                </div>
+            </div>
+            <button id="welcomeStartBtn">¡COMENZAR!</button>
+        </div>
+        <div id="termsModal" class="modal">
+            <div class="modal-content">
                 <span class="close-btn">&times;</span>
                 <h2>Términos y Condiciones</h2>
                 <div class="terms-content">
@@ -92,7 +116,9 @@
                 <button id="acceptTermsBtn">Aceptar</button>
             </div>
         </div>
-    </div> <div id="orientation-message" style="display: none;"> <div>
+    </div>
+    <div id="orientation-message" style="display: none;">
+        <div>
             <p>Por favor, gira tu dispositivo para jugar</p>
             <div class="rotate-icon">⟳</div>
         </div>
